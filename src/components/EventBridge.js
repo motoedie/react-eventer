@@ -18,19 +18,32 @@ class EventBridge extends Component {
     this.eventers = {};
   }
 
-  registerEventer(instanceId, events) {
+  getChildContext() {
+    return {
+      emitEvent: this.emitEvent,
+      registerEventer: this.registerEventer,
+      unregisterEventer: this.unregisterEventer,
+    };
+  }
+
+  registerEventer = (instanceId, events) => {
+    console.log(`registering eventer ${instanceId}`);
     this.eventers[instanceId] = isArray(events)
       ? events
       : [events];
   }
 
-  unregisterEventer(instanceId) {
+  unregisterEventer = (instanceId) => {
     delete this.eventers[instanceId];
+  }
+
+  emitEvent = () => {
+    console.log('emitting');
   }
 
   render() {
     return (
-      <div>asdf</div>
+      <div>{this.props.children}</div>
     );
   }
 }
@@ -40,6 +53,12 @@ EventBridge.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+};
+
+EventBridge.childContextTypes = {
+  emitEvent: PropTypes.func.isRequired,
+  registerEventer: PropTypes.func.isRequired,
+  unregisterEventer: PropTypes.func.isRequired,
 };
 
 export default EventBridge;
