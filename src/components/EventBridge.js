@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes, Children } from 'react';
 import isArray from 'lodash.isarray';
 
 class Emitter extends EventEmitter {
@@ -42,9 +42,7 @@ class EventBridge extends Component {
   }
 
   render() {
-    return (
-      <div>{this.props.children}</div>
-    );
+    return Children.only(this.props.children);
   }
 }
 
