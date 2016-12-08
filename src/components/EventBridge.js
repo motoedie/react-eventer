@@ -27,10 +27,11 @@ class EventBridge extends Component {
   }
 
   registerEventer = (instanceId, events) => {
-    console.log(`registering eventer ${instanceId}`);
-    this.eventers[instanceId] = isArray(events)
-      ? events
-      : [events];
+    console.log(`registering eventer ${instanceId} for name ${this.props.name}`);
+
+    // this.eventers[instanceId] = isArray(events)
+    //   ? events
+    //   : [events];
   }
 
   unregisterEventer = (instanceId) => {
@@ -51,6 +52,7 @@ EventBridge.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  name: PropTypes.string,
 };
 
 EventBridge.childContextTypes = {

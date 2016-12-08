@@ -5,6 +5,7 @@
     "mocha": true
   },
   "rules": {
+    "import/first": 0,
     "react/jsx-filename-extension": 0
   }
 }

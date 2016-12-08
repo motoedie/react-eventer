@@ -1,19 +1,24 @@
-import { Component, PropTypes, createElement } from 'react';
+import hasValue from '../utils/hasValues';
 import hoistStatics from 'hoist-non-react-statics';
+import invariant from 'invariant';
+import isArray from 'lodash.isarray';
 import shortid from 'shortid';
+import { Component, PropTypes, createElement } from 'react';
 
-export default function eventer() {
+export default function eventer(registeredEvents) {
   return function wrapWithEventer(WrappedComponent) {
     class Eventer extends Component {
       constructor(props, context) {
         super(props, context);
+        invariant(hasValue(registeredEvents), '');
         const instanceId = this.instanceId = shortid.generate();
-        this.context.registerEventer(instanceId);
+        this.context.registerEventer(
+          instanceId,
+          isArray(registeredEvents)
+            ? registeredEvents
+            : [registeredEvents],
+        );
       }
-
-      // registerEventer = () => {
-      //   this.context.registerEventer(this.instanceId);
-      // }
 
       componentWillUnmount() {
         this.context.unregisterEventer(this.instanceId);
